@@ -17,10 +17,9 @@ class ClipContainer extends Component {
   }
 
   render(){
-    const { clips } = this.props
+    const { clips, playlist } = this.props
     return (
       <div>
-        <CssBaseline />
         <h1>Header</h1>
         <Button variant="outlined" color="primary">
           <Icon fontSize="large" color="primary">add_circle</Icon>
@@ -29,13 +28,15 @@ class ClipContainer extends Component {
         <div className="playlist-container">
           { clips.map(clipObj => <ClipCard key={clipObj.tracking_id} clip={clipObj}></ClipCard>)}
         </div>
+        <h1>Playlist</h1>
+        <div>{playlist.map(clip => <div key={clip.twitch_tr_id} clip={clip}>{clip.title}</div>)}</div>
       </div>
     )
   }
 }
 
-const mapStateToProps = (state) => {
-  return { clips: state.clips }
+const mapStateToProps = ({ clips, playlist }) => {
+  return { clips, playlist }
 }
 
 const mapDispatchToProps = (dispatch) => ({

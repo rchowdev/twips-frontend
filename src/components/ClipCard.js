@@ -1,13 +1,22 @@
-import React, { Component } from 'react'
+import React from 'react'
+import { connect } from 'react-redux'
 
-class ClipCard extends Component {
-  render(){
-    const { title } = this.props.clip
+//Actions
+import { postClip } from '../actions/playlistActions'
 
-    return (
-      <div>{title}</div>
-    )
+const ClipCard = (props) => {
+  const { title } = props.clip
+
+  const handleAddToPlaylist = () => {
+    props.postClip(props.clip)
   }
+
+  return (
+    <div>
+      <div>{title}</div>
+      <button onClick={handleAddToPlaylist}>Add to Playlist</button>
+    </div>
+  )
 }
 
-export default ClipCard
+export default connect(null, { postClip })(ClipCard)
