@@ -3,20 +3,25 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
+import CssBaseline from "@material-ui/core/CssBaseline"; //
+import AppBar from "@material-ui/core/AppBar"; //
+import Toolbar from "@material-ui/core/Toolbar"; //
 import List from "@material-ui/core/List";
-import Typography from "@material-ui/core/Typography";
+import Typography from "@material-ui/core/Typography"; //
 import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
+import SvgIcon from '@material-ui/core/SvgIcon'; //
+import IconButton from "@material-ui/core/IconButton"; //
+import MenuIcon from "@material-ui/icons/Menu"; //
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
 import PlaylistPlayIcon from "@material-ui/icons/PlaylistPlay";
+
+import NavBar from './NavBar'
+
+import { cutIcon } from '../icons/cut-icon';
 
 const drawerWidth = 240;
 
@@ -25,19 +30,11 @@ const styles = theme => ({
     display: "flex"
   },
   appBar: {
-    transition: theme.transitions.create(["margin", "width"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    }),
+    // transition: theme.transitions.create(["margin", "width"], {
+    //   easing: theme.transitions.easing.sharp,
+    //   duration: theme.transitions.duration.leavingScreen
+    // }),
     zIndex: theme.zIndex.drawer + 1
-  },
-  appBarShift: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
-    transition: theme.transitions.create(["margin", "width"], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen
-    })
   },
   menuButton: {
     marginLeft: 12,
@@ -99,24 +96,7 @@ class PersistentDrawerLeft extends React.Component {
     return (
       <div className={classes.root}>
         <CssBaseline />
-        <AppBar
-          position="fixed"
-          className={classNames(classes.appBar)}
-        >
-          <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="Open/Close drawer"
-              onClick={open ? this.handleDrawerClose : this.handleDrawerOpen}
-              className={classNames(classes.menuButton)}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" color="inherit" noWrap>
-              Persistent drawer
-            </Typography>
-          </Toolbar>
-        </AppBar>
+        <NavBar />
         <Drawer
           className={classes.drawer}
           variant="persistent"

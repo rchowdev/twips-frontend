@@ -1,6 +1,6 @@
 const initialState = {
     clips: [],
-    playlist: []
+    playlist: [],
 }
 
 const playlistReducer = (state = initialState, action) => {

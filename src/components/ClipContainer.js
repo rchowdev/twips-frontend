@@ -6,6 +6,7 @@ import { Button, Icon, CssBaseline } from '@material-ui/core'
 
 //Components
 import ClipCard from './ClipCard'
+import NavBar from './NavBar'
 
 //Actions
 import { getTopClips } from '../actions/playlistActions'
@@ -26,16 +27,18 @@ class ClipContainer extends Component {
           Create Playlist
         </Button>
         <div className="playlist-container">
-          { clips.map(clipObj => <ClipCard key={clipObj.tracking_id} clip={clipObj}></ClipCard>)}
+          {clips.map(clipObj => <ClipCard key={clipObj.tracking_id} clip={clipObj}></ClipCard>)}
         </div>
         <h1>Playlist</h1>
         <div>{playlist.map(clip => <div key={clip.twitch_tr_id} clip={clip}>{clip.title}</div>)}</div>
+
       </div>
     )
   }
 }
 
-const mapStateToProps = ({ clips, playlist }) => {
+const mapStateToProps = ({playlistInfo}) => {
+  const { clips, playlist } = playlistInfo
   return { clips, playlist }
 }
 

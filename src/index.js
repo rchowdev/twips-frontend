@@ -7,12 +7,20 @@ import * as serviceWorker from './serviceWorker';
 import { BrowserRouter as Router} from 'react-router-dom'
 
 //Redux
-import { createStore, applyMiddleware, compose } from 'redux'
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 
-import playlistReducer from './reducers'
-const store = createStore(playlistReducer,
+//Reducers
+import playlistReducer from './reducers/playlistReducer'
+import drawerReducer from './reducers/drawerReducer'
+
+const rootReducer = combineReducers({
+  playlistInfo: playlistReducer,
+  open: drawerReducer
+})
+
+const store = createStore(rootReducer,
   compose(applyMiddleware(thunk),
   window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f
 ))
