@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import classNames from "classnames";
+import PropTypes from "prop-types";
+// import classNames from "classnames";
 
 //Material UI
 import { withStyles } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -47,14 +47,14 @@ class NavBar extends Component{
     return (
       <AppBar
         position="fixed"
-        className={classNames(classes.appBar)}
+        className={classes.appBar}
       >
         <Toolbar>
           <IconButton
             color="inherit"
             aria-label="Open/Close drawer"
             onClick={open ? this.handleDrawerClose : this.handleDrawerOpen}
-            className={classNames(classes.menuButton)}
+            className={classes.menuButton}
           >
             <MenuIcon />
           </IconButton>
@@ -70,6 +70,11 @@ class NavBar extends Component{
   }
 }
 
+NavBar.propTypes = {
+  classes: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired
+};
+
 const mapStateToProps = (state) => {
   return {
     open: state.open
@@ -83,5 +88,5 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const connectedNavBar = connect(mapStateToProps, mapDispatchToProps)(NavBar)
-export default withStyles(styles, { withTheme: true })(connectedNavBar)
+const ConnectedNavBar = connect(mapStateToProps, mapDispatchToProps)(NavBar)
+export default withStyles(styles, { withTheme: true })(ConnectedNavBar)

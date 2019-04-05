@@ -4,16 +4,14 @@ import './App.css';
 //React Router
 import { Route, Switch, withRouter } from 'react-router-dom'
 
-import NavDrawer from './components/NavDrawer'
-import ClipContainer from './components/ClipContainer'
+import Home from './components/Home'
 
 class App extends Component {
   render() {
     return (
       <div>
-        <NavDrawer />
         <Switch>
-          <Route path="/" component={ClipContainer}/>
+          <Route path="/" component={Home}/>
         </Switch>
       </div>
     );

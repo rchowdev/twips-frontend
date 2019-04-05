@@ -1,15 +1,45 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import classNames from "classnames"
 
 //Material UI
-import { Button, Icon, CssBaseline } from '@material-ui/core'
+import { Button, Icon } from '@material-ui/core';
 
 //Components
 import ClipCard from './ClipCard'
-import NavBar from './NavBar'
 
 //Actions
 import { getTopClips } from '../actions/playlistActions'
+
+//Styles
+import { withStyles } from "@material-ui/core/styles";
+
+const drawerWidth = 240
+
+const styles = theme => ({
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing.unit * 3,
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen
+    }),
+    marginLeft: -drawerWidth
+  },
+  contentShift: {
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen
+    }),
+    marginLeft: 0
+  },
+  contentHeader: {
+    display: "flex",
+    alignItems: "center",
+    padding: "0 8px",
+    ...theme.mixins.toolbar,
+  }
+})
 
 class ClipContainer extends Component {
 
@@ -18,10 +48,14 @@ class ClipContainer extends Component {
   }
 
   render(){
-    const { clips, playlist } = this.props
+    const { clips, playlist, classes, open } = this.props
     return (
-      <div>
-        <h1>Header</h1>
+      <main
+        className={classNames(classes.content, {
+          [classes.contentShift]: open
+        })}
+      >
+        <div className={classes.contentHeader}/>
         <Button variant="outlined" color="primary">
           <Icon fontSize="large" color="primary">add_circle</Icon>
           Create Playlist
@@ -31,19 +65,19 @@ class ClipContainer extends Component {
         </div>
         <h1>Playlist</h1>
         <div>{playlist.map(clip => <div key={clip.twitch_tr_id} clip={clip}>{clip.title}</div>)}</div>
-
-      </div>
+      </main>
     )
   }
 }
 
-const mapStateToProps = ({playlistInfo}) => {
+const mapStateToProps = ({playlistInfo, open}) => {
   const { clips, playlist } = playlistInfo
-  return { clips, playlist }
+  return { clips, playlist, open }
 }
 
 const mapDispatchToProps = (dispatch) => ({
     getTopClips: () => dispatch(getTopClips()) //Get top clips from twitch using imported getTopClips
   })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ClipContainer)
+const ConnectedClipContainer = connect(mapStateToProps, mapDispatchToProps)(ClipContainer)
+export default withStyles(styles, { withTheme: true })(ConnectedClipContainer)
