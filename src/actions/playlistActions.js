@@ -11,17 +11,33 @@ const API_HEADERS = {
 
 
 //Action creator
-const loadClips = (clips) => ({ type: 'LOAD_CLIPS', payload: clips})
+const loadClips = (clips) => ({ type: 'LOAD_CLIPS', payload: clips })
+const loadPlaylists = (playlists) => ({ type: 'LOAD_PLAYLISTS', payload: playlists })
 const addToPlaylist = (clip) => ({ type: 'ADD_TO_PLAYLIST', payload: clip })
+const createPlaylist = (playlist) => ({ type: 'CREATE_PLAYLIST', payload: playlist })
+const selectPlaylist = (playlist) => ({ type: 'SELECT_PLAYLIST', payload: playlist })
+
+//Thunks
 
 //Get top clips from twitch api
 export const getTopClips = () => (dispatch) => {
   return fetch("https://api.twitch.tv/kraken/clips/top?limit=9", { headers: TWITCH_HEADERS })
     .then(res => res.json())
-    .then(json => dispatch(loadClips(json.clips)))
+    .then(json => dispatch(loadClips(formatClips(json.clips))))
+}
+
+//Get user's playlists
+export const getPlaylists = () => (dispatch) => {
+  return fetch(`${API_URL}/playlists`, {
+    method: "GET",
+    headers: API_HEADERS,
+  })
+    .then(res => res.json())
+    .then(playlists => playlists.error ? console.log(playlists.error) : dispatch(loadPlaylists(playlists)))
 }
 
 //Post to clip backend and add to current user's playlist
+//We can do find or create playlist if playlist doesn't exist in backend and pass back a playlist with clip with serializer
 export const postClip = (clip) => (dispatch) => {
   const { title, thumbnails, broadcaster, tracking_id } = clip
   const fetchBody = {
@@ -39,4 +55,40 @@ export const postClip = (clip) => (dispatch) => {
   })
     .then(res => res.json())
     .then(clip =>  clip.error ? console.log(clip.error) : dispatch(addToPlaylist(clip)))
+}
+
+//Create playlist and receive a playlist object with id and name
+export const postPlaylist = (playlist) => (dispatch) => {
+  return fetch(`${API_URL}/playlists`, {
+    method: "POST",
+    headers: API_HEADERS,
+    body: JSON.stringify({
+      playlist: playlist
+    })
+  })
+    .then(res => res.json())
+    .then(playlist => playlist.error ? console.log(playlist.error) : dispatch(createPlaylist(playlist)))
+}
+
+//Get specific playlist and receive playlist object with clips
+export const showPlaylist = (playlistID) => (dispatch) => {
+  return fetch(`${API_URL}/playlists/${playlistID}`, {
+    method: "GET",
+    headers: API_HEADERS
+  })
+    .then(res => res.json())
+    .then(playlist => playlist.error ? console.log(playlist.error) : dispatch(selectPlaylist(playlist)))
+}
+
+//Helpers
+
+const formatClips = (clips) => {
+  //Destructure the JSON data
+  return clips.map(({ title, broadcaster, thumbnails, tracking_id }) => ({
+      title,
+      tracking_id,
+      thumbnail: thumbnails.medium,
+      broadcaster: broadcaster.display_name
+    })
+  )
 }

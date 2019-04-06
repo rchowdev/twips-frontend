@@ -3,18 +3,26 @@ import { connect } from 'react-redux'
 import PropTypes from "prop-types";
 
 //Material UI
-import { withStyles } from "@material-ui/core/styles";
-import Divider from "@material-ui/core/Divider";
+import Collapse from "@material-ui/core/Collapse"
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
+import Typography from "@material-ui/core/Typography"
 import PlaylistPlayIcon from "@material-ui/icons/PlaylistPlay";
+import AddIcon from "@material-ui/icons/Add"
+
+//Components
+import NewPlaylistForm from './NewPlaylistForm'
+import LeftDrawerItem from './LeftDrawerItem'
+
+//Actions
+import { getPlaylists } from '../actions/playlistActions'
 
 //Styles
+import { withStyles } from "@material-ui/core/styles";
+
 const drawerWidth = 240
 
 const styles = theme => ({
@@ -34,8 +42,22 @@ const styles = theme => ({
 })
 
 class LeftDrawer extends Component{
+  state = {
+    collapseIsOpen: false
+  }
+
+  //Load playlists
+  componentDidMount(){
+    this.props.getPlaylists()
+  }
+
+  handleCollapse = () => {
+    this.setState({collapseIsOpen: !this.state.collapseIsOpen})
+  }
+
   render(){
-    const { open, classes } = this.props
+    const { open, playlists, classes } = this.props
+    const { collapseIsOpen } = this.state
 
     return (
       <Drawer
@@ -49,32 +71,26 @@ class LeftDrawer extends Component{
       >
         <div className={classes.drawerHeader}/>
         <List>
-          <ListItem>
+          <ListItem divider>
             <ListItemIcon>
               <PlaylistPlayIcon />
             </ListItemIcon>
-            <ListItemText primary={"Playlists"}/>
+            <Typography variant="title">Playlists</Typography>
           </ListItem>
-          <Divider />
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
+          {/*Playlists names here*/}
+          {playlists.map(playlist => (
+            <LeftDrawerItem key={playlist.id} playlist={playlist} />
           ))}
-        </List>
-        <Divider />
-        <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+          {/*Create Playlist Form*/}
+          <ListItem button onClick={this.handleCollapse}>
+            <ListItemIcon>
+              <AddIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Create Playlist"} />
+          </ListItem>
+          <Collapse in={collapseIsOpen} timeout="auto" unmountOnExit>
+            <NewPlaylistForm />
+          </Collapse>
         </List>
       </Drawer>
     )
@@ -86,9 +102,10 @@ LeftDrawer.propTypes = {
   theme: PropTypes.object.isRequired
 };
 
-const mapStateToProps = ({ open }) => {
-    return { open }
+const mapStateToProps = ({ open, playlistInfo }) => {
+    const { playlists } = playlistInfo
+    return { open, playlists }
 }
 
-const ConnectedLeftDrawer = connect(mapStateToProps)(LeftDrawer)
+const ConnectedLeftDrawer = connect(mapStateToProps, { getPlaylists })(LeftDrawer)
 export default withStyles(styles, { withTheme: true })(ConnectedLeftDrawer)

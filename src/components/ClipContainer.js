@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import classNames from "classnames"
 
 //Material UI
-import { Button, Icon } from '@material-ui/core';
+import { GridList, GridListTile, Typography, Divider } from '@material-ui/core';
 
 //Components
 import ClipCard from './ClipCard'
@@ -48,7 +48,8 @@ class ClipContainer extends Component {
   }
 
   render(){
-    const { clips, playlist, classes, open } = this.props
+    const { selectedPlaylist, open, classes } = this.props
+    const { name, clips } = selectedPlaylist
     return (
       <main
         className={classNames(classes.content, {
@@ -56,23 +57,22 @@ class ClipContainer extends Component {
         })}
       >
         <div className={classes.contentHeader}/>
-        <Button variant="outlined" color="primary">
-          <Icon fontSize="large" color="primary">add_circle</Icon>
-          Create Playlist
-        </Button>
-        <div className="playlist-container">
+        <GridList cellHeight={180} className={classes.gridList}>
+          <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
+            <Typography variant="title">{name}</Typography>
+            <Divider />
+          </GridListTile>
+          {/* Clips */}
           {clips.map(clipObj => <ClipCard key={clipObj.tracking_id} clip={clipObj}></ClipCard>)}
-        </div>
-        <h1>Playlist</h1>
-        <div>{playlist.map(clip => <div key={clip.twitch_tr_id} clip={clip}>{clip.title}</div>)}</div>
+        </GridList>
       </main>
     )
   }
 }
 
 const mapStateToProps = ({playlistInfo, open}) => {
-  const { clips, playlist } = playlistInfo
-  return { clips, playlist, open }
+  const { clips, selectedPlaylist } = playlistInfo
+  return { clips, selectedPlaylist, open }
 }
 
 const mapDispatchToProps = (dispatch) => ({
