@@ -70,9 +70,9 @@ export const postPlaylist = (playlist) => (dispatch) => {
     .then(playlist => playlist.error ? console.log(playlist.error) : dispatch(createPlaylist(playlist)))
 }
 
-//Get specific playlist and receive playlist object with clips
+//Get specific playlist and receive object with playlist and its clips
 export const showPlaylist = (playlistID) => (dispatch) => {
-  return fetch(`${API_URL}/playlists/${playlistID}`, {
+  return fetch(`${API_URL}/playlists/${playlistID}/clips`, {
     method: "GET",
     headers: API_HEADERS
   })
