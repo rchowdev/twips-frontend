@@ -48,12 +48,12 @@ class ClipContainer extends Component {
   }
 
   render(){
-    const { selectedPlaylist, open, classes } = this.props
+    const { selectedPlaylist, drawerOpen, classes } = this.props
     const { name, clips } = selectedPlaylist
     return (
       <main
         className={classNames(classes.content, {
-          [classes.contentShift]: open
+          [classes.contentShift]: drawerOpen
         })}
       >
         <div className={classes.contentHeader}/>
@@ -70,9 +70,9 @@ class ClipContainer extends Component {
   }
 }
 
-const mapStateToProps = ({playlistInfo, open}) => {
+const mapStateToProps = ({playlistInfo, drawerOpen}) => {
   const { clips, selectedPlaylist } = playlistInfo
-  return { clips, selectedPlaylist, open }
+  return { clips, selectedPlaylist, drawerOpen }
 }
 
 const mapDispatchToProps = (dispatch) => ({

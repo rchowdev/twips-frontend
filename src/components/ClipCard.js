@@ -1,13 +1,10 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React, { Component } from 'react'
 
 //Material UI
 import { GridListTile, GridListTileBar } from '@material-ui/core'
-import IconButton from '@material-ui/core/IconButton';
-import InfoIcon from '@material-ui/icons/Info';
 
-//Actions
-import { postClip } from '../actions/playlistActions'
+//Components
+import PlaylistMenu from './PlaylistMenu'
 
 //Styles
 import { withStyles } from "@material-ui/core/styles";
@@ -22,28 +19,23 @@ const styles = theme => ({
   }
 })
 
-const ClipCard = (props) => {
-  const { classes } = props
-  const { title, thumbnail, broadcaster } = props.clip
-  const handleAddToPlaylist = () => {
-    props.postClip(props.clip)
-  }
-
-  return (
-    <GridListTile className={classes.gridTile}>
-      <img src={thumbnail} alt={title} />
-      <GridListTileBar
+class ClipCard extends Component {
+  render() {
+    const { classes } = this.props
+    const { title, thumbnail, broadcaster } = this.props.clip
+    return (
+      <GridListTile className={classes.gridTile}>
+        <img src={thumbnail} alt={title} />
+        <GridListTileBar
         title={title}
         subtitle={<span>{broadcaster}</span>}
         actionIcon={
-          <IconButton className={classes.icon} onClick={handleAddToPlaylist}>
-            <InfoIcon />
-          </IconButton>
+          <PlaylistMenu clip={this.props.clip}/>
         }
-      />
-    </GridListTile>
-  )
+        />
+      </GridListTile>
+    )
+  }
 }
 
-const ConnectedClipCard = connect(null, { postClip })(ClipCard)
-export default withStyles(styles, { withTheme: true })(ConnectedClipCard)
+export default withStyles(styles, { withTheme: true })(ClipCard)

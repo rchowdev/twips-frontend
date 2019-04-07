@@ -56,7 +56,7 @@ class LeftDrawer extends Component{
   }
 
   render(){
-    const { open, playlists, classes } = this.props
+    const { drawerOpen, playlists, classes } = this.props
     const { collapseIsOpen } = this.state
 
     return (
@@ -64,7 +64,7 @@ class LeftDrawer extends Component{
         className={classes.drawer}
         variant="persistent"
         anchor="left"
-        open={open}
+        open={drawerOpen}
         classes={{
           paper: classes.drawerPaper
         }}
@@ -102,9 +102,9 @@ LeftDrawer.propTypes = {
   theme: PropTypes.object.isRequired
 };
 
-const mapStateToProps = ({ open, playlistInfo }) => {
+const mapStateToProps = ({ drawerOpen, playlistInfo }) => {
     const { playlists } = playlistInfo
-    return { open, playlists }
+    return { drawerOpen, playlists }
 }
 
 const ConnectedLeftDrawer = connect(mapStateToProps, { getPlaylists })(LeftDrawer)

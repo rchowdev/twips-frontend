@@ -42,7 +42,7 @@ class NavBar extends Component{
   };
 
   render() {
-    const { classes, open } = this.props;
+    const { classes, drawerOpen } = this.props;
 
     return (
       <AppBar
@@ -53,7 +53,7 @@ class NavBar extends Component{
           <IconButton
             color="inherit"
             aria-label="Open/Close drawer"
-            onClick={open ? this.handleDrawerClose : this.handleDrawerOpen}
+            onClick={drawerOpen ? this.handleDrawerClose : this.handleDrawerOpen}
             className={classes.menuButton}
           >
             <MenuIcon />
@@ -77,7 +77,7 @@ NavBar.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    open: state.open
+    drawerOpen: state.drawerOpen
   }
 }
 

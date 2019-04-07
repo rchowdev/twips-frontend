@@ -14,10 +14,12 @@ import thunk from 'redux-thunk'
 //Reducers
 import playlistReducer from './reducers/playlistReducer'
 import drawerReducer from './reducers/drawerReducer'
+import clipReducer from './reducers/clipReducer'
 
 const rootReducer = combineReducers({
   playlistInfo: playlistReducer,
-  open: drawerReducer
+  drawerOpen: drawerReducer,
+  clipInfo: clipReducer
 })
 
 const store = createStore(rootReducer,

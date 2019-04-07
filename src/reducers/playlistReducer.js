@@ -24,13 +24,7 @@ const playlistReducer = (state = initialState, action) => {
         playlists: action.payload
       })
     case "ADD_TO_PLAYLIST":
-      return ({
-        ...state,
-        selectedPlaylist: {
-          ...selectedPlaylist,
-          clips: [action.payload, ...clips]
-        }
-      })
+      return state
     case "CREATE_PLAYLIST":
       return ({
         ...state,

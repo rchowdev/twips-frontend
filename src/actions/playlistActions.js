@@ -38,17 +38,17 @@ export const getPlaylists = () => (dispatch) => {
 
 //Post to clip backend and add to current user's playlist
 //We can do find or create playlist if playlist doesn't exist in backend and pass back a playlist with clip with serializer
-export const postClip = (clip) => (dispatch) => {
-  const { title, thumbnails, broadcaster, tracking_id } = clip
+export const postClip = (playlistID, clip) => (dispatch) => {
+  const { title, thumbnail, broadcaster, tracking_id } = clip
   const fetchBody = {
     clip: {
-      title: title,
-      thumbnail: thumbnails.medium,
-      broadcaster: broadcaster.display_name,
+      title,
+      thumbnail,
+      broadcaster,
       twitch_tr_id: tracking_id //Used to identify clip
     }
   }
-  return fetch(`${API_URL}/playlists/1/clips`, {
+  return fetch(`${API_URL}/playlists/${playlistID}/clips`, {
     method: "POST",
     headers: API_HEADERS,
     body: JSON.stringify(fetchBody)
