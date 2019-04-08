@@ -1,14 +1,4 @@
-const API_URL = "http://localhost:3001/api/v1"
-const CLIENT_ID = "1ulzeyfog8sg4jobbpcq9n48gyw91i"  //Move this out in production
-const TWITCH_HEADERS = {
-  "Accept": "application/vnd.twitchtv.v5+json",
-  "Client-ID": CLIENT_ID
-}
-const API_HEADERS = {
-  "Accept": "application/json",
-  "Content-Type": "application/json"
-}
-
+import { API_URL, API_HEADERS, TWITCH_HEADERS } from '../constants'
 
 //Action creator
 const loadClips = (clips) => ({ type: 'LOAD_CLIPS', payload: clips })
@@ -39,13 +29,13 @@ export const getPlaylists = () => (dispatch) => {
 //Post to clip backend and add to current user's playlist
 //We can do find or create playlist if playlist doesn't exist in backend and pass back a playlist with clip with serializer
 export const postClip = (playlistID, clip) => (dispatch) => {
-  const { title, thumbnail, broadcaster, tracking_id } = clip
+  const { title, thumbnail, broadcaster, twitch_tr_id } = clip
   const fetchBody = {
     clip: {
       title,
       thumbnail,
       broadcaster,
-      twitch_tr_id: tracking_id //Used to identify clip
+      twitch_tr_id //Used to identify clip
     }
   }
   return fetch(`${API_URL}/playlists/${playlistID}/clips`, {
@@ -55,6 +45,16 @@ export const postClip = (playlistID, clip) => (dispatch) => {
   })
     .then(res => res.json())
     .then(clip =>  clip.error ? console.log(clip.error) : dispatch(addToPlaylist(clip)))
+}
+
+//Delete clip
+export const deleteClip = (playlistID, clipID) => (dispatch) => {
+  return fetch(`${API_URL}/playlists/${playlistID}/clips/${clipID}`, {
+    method: "DELETE",
+    headers: API_HEADERS,
+  })
+    .then(res => res.json())
+    .then(clip => clip.error ? console.log(clip.error) : console.log(clip))
 }
 
 //Create playlist and receive a playlist object with id and name
@@ -80,13 +80,14 @@ export const showPlaylist = (playlistID) => (dispatch) => {
     .then(playlist => playlist.error ? console.log(playlist.error) : dispatch(selectPlaylist(playlist)))
 }
 
+
 //Helpers
 
 const formatClips = (clips) => {
   //Destructure the JSON data
   return clips.map(({ title, broadcaster, thumbnails, tracking_id }) => ({
       title,
-      tracking_id,
+      twitch_tr_id: tracking_id,
       thumbnail: thumbnails.medium,
       broadcaster: broadcaster.display_name
     })

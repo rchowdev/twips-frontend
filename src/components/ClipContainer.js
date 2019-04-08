@@ -63,7 +63,7 @@ class ClipContainer extends Component {
             <Divider />
           </GridListTile>
           {/* Clips */}
-          {clips.map(clipObj => <ClipCard key={clipObj.tracking_id} clip={clipObj}></ClipCard>)}
+          {clips.map(clipObj => <ClipCard key={clipObj.twitch_tr_id} clip={clipObj}></ClipCard>)}
         </GridList>
       </main>
     )

@@ -7,8 +7,7 @@ const initialState = {
 }
 
 const playlistReducer = (state = initialState, action) => {
-  const { playlists, selectedPlaylist } = state
-  const { name, clips} = selectedPlaylist
+  const { playlists } = state
   switch (action.type) {
     case "LOAD_CLIPS":
       return ({
@@ -24,6 +23,7 @@ const playlistReducer = (state = initialState, action) => {
         playlists: action.payload
       })
     case "ADD_TO_PLAYLIST":
+      console.log("Added to playlist")
       return state
     case "CREATE_PLAYLIST":
       return ({
