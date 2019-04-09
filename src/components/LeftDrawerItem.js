@@ -4,15 +4,18 @@ import { connect } from 'react-redux'
 //Material UI
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted'
+import Typography from "@material-ui/core/Typography";
+import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 
 //Actions
-import { showPlaylist } from "../actions/playlistActions"
+import { getClips } from "../actions/playlistActions"
+
+//Components
+import DeletePlaylistDialog from './DeletePlaylistDialog'
 
 class LeftDrawerItem extends Component {
   handleSelectPlaylist = () => {
-    this.props.showPlaylist(this.props.playlist.id)
+    this.props.getClips(this.props.playlist.id)
   }
 
   render() {
@@ -22,10 +25,13 @@ class LeftDrawerItem extends Component {
         <ListItemIcon>
           <FormatListBulletedIcon />
         </ListItemIcon>
-        <ListItemText primary={playlist.name} />
+        <Typography style={{flex: 1}} variant="inherit" noWrap>{playlist.name}</Typography>
+        <ListItemIcon>
+          <DeletePlaylistDialog playlist={playlist}/>
+        </ListItemIcon>
       </ListItem>
     )
   }
 }
 
-export default connect(null, { showPlaylist })(LeftDrawerItem)
+export default connect(null, { getClips })(LeftDrawerItem)

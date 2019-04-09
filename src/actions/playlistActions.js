@@ -6,12 +6,14 @@ const loadPlaylists = (playlists) => ({ type: 'LOAD_PLAYLISTS', payload: playlis
 const addToPlaylist = (clip) => ({ type: 'ADD_TO_PLAYLIST', payload: clip })
 const createPlaylist = (playlist) => ({ type: 'CREATE_PLAYLIST', payload: playlist })
 const selectPlaylist = (playlist) => ({ type: 'SELECT_PLAYLIST', payload: playlist })
+const removeFromPlaylist = (deletedClip) => ({ type: 'REMOVE_FROM_PLAYLIST', payload: deletedClip })
+const modifyPlaylist = playlist => ({ type: 'MODIFY_PLAYLIST', payload: playlist })
+const removePlaylist = playlist => ({ type: 'REMOVE_PLAYLIST', payload: playlist })
 
 //Thunks
-
 //Get top clips from twitch api
 export const getTopClips = () => (dispatch) => {
-  return fetch("https://api.twitch.tv/kraken/clips/top?limit=9", { headers: TWITCH_HEADERS })
+  return fetch("https://api.twitch.tv/kraken/clips/top?limit=12", { headers: TWITCH_HEADERS })
     .then(res => res.json())
     .then(json => dispatch(loadClips(formatClips(json.clips))))
 }
@@ -54,7 +56,7 @@ export const deleteClip = (playlistID, clipID) => (dispatch) => {
     headers: API_HEADERS,
   })
     .then(res => res.json())
-    .then(clip => clip.error ? console.log(clip.error) : console.log(clip))
+    .then(clip => clip.error ? console.log(clip.error) : dispatch(removeFromPlaylist(clip)))
 }
 
 //Create playlist and receive a playlist object with id and name
@@ -70,8 +72,31 @@ export const postPlaylist = (playlist) => (dispatch) => {
     .then(playlist => playlist.error ? console.log(playlist.error) : dispatch(createPlaylist(playlist)))
 }
 
+//Update Playlist
+export const updatePlaylist = (playlistID, name) => (dispatch) => {
+  return fetch(`${API_URL}/playlists/${playlistID}`, {
+    method: "PATCH",
+    headers: API_HEADERS,
+    body: JSON.stringify({
+      name: name
+    })
+  })
+    .then(res => res.json())
+    .then(playlist => dispatch(modifyPlaylist(playlist)))
+}
+
+//Delete Playlist
+export const deletePlaylist = (playlistID) => (dispatch) => {
+  return fetch(`${API_URL}/playlists/${playlistID}`, {
+    method: "DELETE",
+    headers: API_HEADERS
+  })
+    .then(res => res.json())
+    .then(playlist => dispatch(removePlaylist(playlist)))
+}
+
 //Get specific playlist and receive object with playlist and its clips
-export const showPlaylist = (playlistID) => (dispatch) => {
+export const getClips = (playlistID) => (dispatch) => {
   return fetch(`${API_URL}/playlists/${playlistID}/clips`, {
     method: "GET",
     headers: API_HEADERS

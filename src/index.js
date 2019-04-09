@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+
 //React Router
 import { BrowserRouter as Router} from 'react-router-dom'
 
@@ -15,6 +16,8 @@ import thunk from 'redux-thunk'
 import playlistReducer from './reducers/playlistReducer'
 import drawerReducer from './reducers/drawerReducer'
 import clipReducer from './reducers/clipReducer'
+
+require('dotenv').config()
 
 const rootReducer = combineReducers({
   playlistInfo: playlistReducer,

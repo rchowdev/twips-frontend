@@ -37,7 +37,7 @@ class PlaylistMenuItem extends Component {
     clipIsInPlaylist ?
       this.props.deleteClip(playlistID, this.props.selectedClip.twitch_tr_id)
       : this.props.postClip(playlistID, this.props.selectedClip)
-
+    
     this.setState({clipIsInPlaylist: !clipIsInPlaylist})
   }
 
