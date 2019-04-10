@@ -94,7 +94,7 @@ class SearchDownshift extends Component {
     if (e.target.value.length > 0) {
       const res = await searchTwitchAPIDebounced(e.target.value);
       const json = await res.json();
-      const games = json.games.map(gameObj => ({ name: gameObj.name, box: gameObj.box.small }))
+      const games = json.games ? json.games.map(gameObj => ({ name: gameObj.name, box: gameObj.box.small })) : []
       this.setState({ suggestions: games })
     }
   };
