@@ -22,6 +22,9 @@ import Typography from '@material-ui/core/Typography'
 import { withStyles } from "@material-ui/core/styles";
 import { fade } from '@material-ui/core/styles/colorManipulator'
 
+//Actions
+import { getTopClipsForCategory } from '../actions/playlistActions'
+
 const styles = theme => ({
   formControl: {
     margin: theme.spacing.unit,
@@ -78,30 +81,37 @@ const styles = theme => ({
 })
 
 //Fetch to twtich search
-const searchTwitchAPI = query => fetch(`${TWITCH_API}/search/games?query=${query}`, { headers: TWITCH_HEADERS } )
+const searchTwitchAPI = (category, query) => fetch(`${TWITCH_API}/search/${category}?query=${query}`, { headers: TWITCH_HEADERS } )
 //Debounce Promise: Used so when user types we don't fetch every on change
 const searchTwitchAPIDebounced = AwesomeDebouncePromise(searchTwitchAPI, 500);
 
 class SearchDownshift extends Component {
   state = {
-    selectValue: "categories",
+    selectValue: "games", //What category: Categories(Games) or Channels
     searchInput: "",
     suggestions: []
   }
 
+  //Select handler
+  handleSelect = name => e => {
+    this.setState({ [name]: e.target.value })
+  }
+
+  //Input handler: Uses debounce to fetch search twitch api endpoint
   handleChange = name => async e => {
+    const { selectValue } = this.state
     this.setState({ [name]: e.target.value, suggestions: [] });
     if (e.target.value.length > 0) {
-      const res = await searchTwitchAPIDebounced(e.target.value);
+      const res = await searchTwitchAPIDebounced(selectValue, e.target.value);
       const json = await res.json();
-      const games = json.games ? json.games.map(gameObj => ({ name: gameObj.name, box: gameObj.box.small })) : []
-      this.setState({ suggestions: games })
+      const queryResults = json[selectValue] ? json[selectValue].map(({ name, box, logo }) => ({ name, image: box ? box.small : logo })) : []
+      this.setState({ suggestions: queryResults })
     }
   };
 
-  handleSearchSubmit = selectedValue => {
-    console.log(selectedValue);
-    this.setState({ searchInput: "" })
+  handleSearchSubmit = value => {
+    this.props.getTopClipsForCategory(this.state.selectValue, value)
+    this.setState({ selectValue: "games", searchInput: "" })
   };
 
   //Search Bar render methods
@@ -163,11 +173,11 @@ class SearchDownshift extends Component {
         component="div"
         style={{
           fontWeight: isSelected ? 500 : 400,
-          height: "7vh"
+          height: "6vh"
         }}
       >
         <ListItemIcon>
-          <img src={suggestion.box} alt={suggestion.name}/>
+          <img style={{ height: 62, width: 52 }} src={suggestion.image} alt={suggestion.name}/>
         </ListItemIcon>
         <Typography noWrap>{suggestion.name}</Typography>
       </MenuItem>
@@ -183,7 +193,7 @@ class SearchDownshift extends Component {
           <Select
           native
           value={selectValue}
-          onChange={this.handleChange("selectValue")}
+          onChange={this.handleSelect("selectValue")}
           input={
             <OutlinedInput
               name="selectValue"
@@ -191,7 +201,7 @@ class SearchDownshift extends Component {
             />
           }
           >
-            <option value={"categories"}>Categories</option>
+            <option value={"games"}>Categories</option>
             <option value={"channels"}>Channels</option>
           </Select>
         </FormControl>
@@ -245,5 +255,5 @@ class SearchDownshift extends Component {
   }
 }
 
-const ConnectedSearchDownshift = connect()(SearchDownshift)
+const ConnectedSearchDownshift = connect(null, { getTopClipsForCategory })(SearchDownshift)
 export default withStyles(styles)(ConnectedSearchDownshift)

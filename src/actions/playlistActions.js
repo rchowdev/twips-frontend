@@ -1,7 +1,7 @@
 import { API_URL, API_HEADERS, TWITCH_HEADERS, TWITCH_API } from '../constants'
 
 //Action creator
-const loadClips = (clips) => ({ type: 'LOAD_CLIPS', payload: clips })
+const loadClips = (category, clips) => ({ type: 'LOAD_CLIPS', payload: { category, clips }})
 const loadPlaylists = (playlists) => ({ type: 'LOAD_PLAYLISTS', payload: playlists })
 const addToPlaylist = (clip) => ({ type: 'ADD_TO_PLAYLIST', payload: clip })
 const createPlaylist = (playlist) => ({ type: 'CREATE_PLAYLIST', payload: playlist })
@@ -15,7 +15,14 @@ const removePlaylist = playlist => ({ type: 'REMOVE_PLAYLIST', payload: playlist
 export const getTopClips = () => (dispatch) => {
   return fetch(`${TWITCH_API}/clips/top?limit=12`, { headers: TWITCH_HEADERS })
     .then(res => res.json())
-    .then(json => dispatch(loadClips(formatClips(json.clips))))
+    .then(json => dispatch(loadClips("Top Clips", formatClips(json.clips))))
+}
+
+//Get top clips for a category/game
+export const getTopClipsForCategory = (category, value) => (dispatch) => {
+  return fetch(`${TWITCH_API}/clips/top?${category.slice(0,-1)}=${value}&limit=12`, { headers: TWITCH_HEADERS })
+    .then(res => res.json())
+    .then(json => dispatch(loadClips(value, formatClips(json.clips))))
 }
 
 //Get user's playlists

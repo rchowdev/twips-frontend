@@ -14,8 +14,8 @@ const playlistReducer = (state = initialState, action) => {
       return ({
         ...state,
         selectedPlaylist: {
-          name: "Top Clips",
-          clips: action.payload,
+          name: action.payload.category,
+          clips: action.payload.clips,
           areSearchResults: true
         }
       })
