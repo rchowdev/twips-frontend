@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 // import classNames from "classnames";
 
 //Material UI
-import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -18,8 +17,16 @@ import { cutIcon } from '../icons/cut-icon'
 //Actions
 import { openDrawer, closeDrawer } from '../actions/drawerActions'
 
+//Components
+import SearchDownshift from './SearchDownShift'
+
 //Styles
+import { withStyles } from "@material-ui/core/styles";
+
 const styles = theme => ({
+  grow: {
+    flexGrow: 1,
+  },
   appBar: {
     zIndex: theme.zIndex.drawer + 1
   },
@@ -30,7 +37,6 @@ const styles = theme => ({
 })
 
 class NavBar extends Component{
-
   handleDrawerOpen = () => {
     // this.setState({ open: true });
     this.props.openDrawer()
@@ -64,6 +70,7 @@ class NavBar extends Component{
           <Typography variant="h6" color="inherit" noWrap>
             Twips
           </Typography>
+          <SearchDownshift />
         </Toolbar>
       </AppBar>
     )

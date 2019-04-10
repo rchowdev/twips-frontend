@@ -1,4 +1,4 @@
-import { API_URL, API_HEADERS, TWITCH_HEADERS } from '../constants'
+import { API_URL, API_HEADERS, TWITCH_HEADERS, TWITCH_API } from '../constants'
 
 //Action creator
 const loadClips = (clips) => ({ type: 'LOAD_CLIPS', payload: clips })
@@ -13,7 +13,7 @@ const removePlaylist = playlist => ({ type: 'REMOVE_PLAYLIST', payload: playlist
 //Thunks
 //Get top clips from twitch api
 export const getTopClips = () => (dispatch) => {
-  return fetch("https://api.twitch.tv/kraken/clips/top?limit=12", { headers: TWITCH_HEADERS })
+  return fetch(`${TWITCH_API}/clips/top?limit=12`, { headers: TWITCH_HEADERS })
     .then(res => res.json())
     .then(json => dispatch(loadClips(formatClips(json.clips))))
 }
