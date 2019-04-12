@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { withRouter } from 'react-router-dom'
 
 //Material UI
 import { withStyles } from "@material-ui/core/styles";
@@ -37,4 +38,4 @@ Home.propTypes = {
   theme: PropTypes.object.isRequired
 };
 
-export default withStyles(styles, { withTheme: true })(Home);
+export default withRouter(withStyles(styles, { withTheme: true })(Home));

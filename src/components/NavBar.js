@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import PropTypes from "prop-types";
 // import classNames from "classnames";
 
@@ -9,6 +10,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import SvgIcon from '@material-ui/core/SvgIcon';
 import IconButton from "@material-ui/core/IconButton";
+import Button from "@material-ui/core/Button";
 import MenuIcon from "@material-ui/icons/Menu";
 
 //Icon Logo
@@ -16,6 +18,7 @@ import { cutIcon } from '../icons/cut-icon'
 
 //Actions
 import { openDrawer, closeDrawer } from '../actions/drawerActions'
+import { logOut } from '../actions/userActions'
 
 //Components
 import SearchDownshift from './SearchDownShift'
@@ -47,6 +50,12 @@ class NavBar extends Component{
     this.props.closeDrawer()
   };
 
+  handleLogout = () => {
+    localStorage.removeItem('token')
+    this.props.logOut()
+    this.props.history.push('/')
+  }
+
   render() {
     const { classes, drawerOpen } = this.props;
 
@@ -71,6 +80,7 @@ class NavBar extends Component{
             Twips
           </Typography>
           <SearchDownshift />
+          <Button onClick={this.handleLogout}>Logout</Button>
         </Toolbar>
       </AppBar>
     )
@@ -91,9 +101,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     openDrawer: () => dispatch(openDrawer()),
-    closeDrawer: () => dispatch(closeDrawer())
+    closeDrawer: () => dispatch(closeDrawer()),
+    logOut: () => dispatch(logOut())
   }
 }
 
 const ConnectedNavBar = connect(mapStateToProps, mapDispatchToProps)(NavBar)
-export default withStyles(styles, { withTheme: true })(ConnectedNavBar)
+export default withRouter(withStyles(styles, { withTheme: true })(ConnectedNavBar))

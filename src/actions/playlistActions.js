@@ -1,4 +1,4 @@
-import { API_URL, API_HEADERS, TWITCH_HEADERS, TWITCH_API } from '../constants'
+import { API_URL, TWITCH_HEADERS, TWITCH_API, AUTH_HEADERS } from '../constants'
 
 //Action creator
 const loadClips = (category, clips) => ({ type: 'LOAD_CLIPS', payload: { category, clips }})
@@ -29,7 +29,7 @@ export const getTopClipsForCategory = (category, value) => (dispatch) => {
 export const getPlaylists = () => (dispatch) => {
   return fetch(`${API_URL}/playlists`, {
     method: "GET",
-    headers: API_HEADERS,
+    headers: AUTH_HEADERS(),
   })
     .then(res => res.json())
     .then(playlists => playlists.error ? console.log(playlists.error) : dispatch(loadPlaylists(playlists)))
@@ -49,7 +49,7 @@ export const postClip = (playlistID, clip) => (dispatch) => {
   }
   return fetch(`${API_URL}/playlists/${playlistID}/clips`, {
     method: "POST",
-    headers: API_HEADERS,
+    headers: AUTH_HEADERS(),
     body: JSON.stringify(fetchBody)
   })
     .then(res => res.json())
@@ -60,7 +60,7 @@ export const postClip = (playlistID, clip) => (dispatch) => {
 export const deleteClip = (playlistID, clipID) => (dispatch) => {
   return fetch(`${API_URL}/playlists/${playlistID}/clips/${clipID}`, {
     method: "DELETE",
-    headers: API_HEADERS,
+    headers: AUTH_HEADERS(),
   })
     .then(res => res.json())
     .then(clip => clip.error ? console.log(clip.error) : dispatch(removeFromPlaylist(clip)))
@@ -70,7 +70,7 @@ export const deleteClip = (playlistID, clipID) => (dispatch) => {
 export const postPlaylist = (playlist) => (dispatch) => {
   return fetch(`${API_URL}/playlists`, {
     method: "POST",
-    headers: API_HEADERS,
+    headers: AUTH_HEADERS(),
     body: JSON.stringify({
       playlist: playlist
     })
@@ -83,7 +83,7 @@ export const postPlaylist = (playlist) => (dispatch) => {
 export const updatePlaylist = (playlistID, name) => (dispatch) => {
   return fetch(`${API_URL}/playlists/${playlistID}`, {
     method: "PATCH",
-    headers: API_HEADERS,
+    headers: AUTH_HEADERS(),
     body: JSON.stringify({
       name: name
     })
@@ -96,7 +96,7 @@ export const updatePlaylist = (playlistID, name) => (dispatch) => {
 export const deletePlaylist = (playlistID) => (dispatch) => {
   return fetch(`${API_URL}/playlists/${playlistID}`, {
     method: "DELETE",
-    headers: API_HEADERS
+    headers: AUTH_HEADERS()
   })
     .then(res => res.json())
     .then(playlist => dispatch(removePlaylist(playlist)))
@@ -106,7 +106,7 @@ export const deletePlaylist = (playlistID) => (dispatch) => {
 export const getClips = (playlistID) => (dispatch) => {
   return fetch(`${API_URL}/playlists/${playlistID}/clips`, {
     method: "GET",
-    headers: API_HEADERS
+    headers: AUTH_HEADERS()
   })
     .then(res => res.json())
     .then(playlist => playlist.error ? console.log(playlist.error) : dispatch(selectPlaylist(playlist)))

@@ -8,3 +8,11 @@ export const API_HEADERS = {
   "Accept": "application/json",
   "Content-Type": "application/json"
 }
+
+//Has to be a function because we want to dynamically get token. If it was an object, token will be assigned only once to null.
+export const AUTH_HEADERS = () => {
+  return {
+    ...API_HEADERS,
+    "Authorization": `Bearer ${localStorage.getItem('token')}`
+  }
+}

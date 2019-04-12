@@ -5,13 +5,22 @@ import './App.css';
 import { Route, Switch, withRouter } from 'react-router-dom'
 
 import Home from './components/Home'
+import Landing from './components/LandingPage/Landing'
 
 class App extends Component {
+  componentDidMount(){
+    let token = localStorage.token
+    token ? //User logged in?
+      this.props.history.push("/home")
+      : this.props.history.push("/")
+  }
+
   render() {
     return (
       <div>
         <Switch>
-          <Route path="/" component={Home}/>
+          <Route exact path="/home" component={Home}/>
+          <Route path="/" component={Landing}/>
         </Switch>
       </div>
     );

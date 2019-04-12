@@ -45,7 +45,7 @@ class LeftDrawer extends Component{
   state = {
     collapseIsOpen: false
   }
-
+  
   //Load playlists
   componentDidMount(){
     this.props.getPlaylists()

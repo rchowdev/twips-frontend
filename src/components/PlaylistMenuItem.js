@@ -10,7 +10,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
 //Constants
-import { API_URL, API_HEADERS } from '../constants'
+import { API_URL, AUTH_HEADERS } from '../constants'
 
 class PlaylistMenuItem extends Component {
   state = {
@@ -23,7 +23,7 @@ class PlaylistMenuItem extends Component {
     const { twitch_tr_id } = this.props.selectedClip
     fetch(`${API_URL}/playlists/${id}/clips/${twitch_tr_id}`, {
       method: "GET",
-      headers: API_HEADERS
+      headers: AUTH_HEADERS()
     })
       .then(res => res.json())
       .then(({ clipIsInPlaylist }) => this.setState({ clipIsInPlaylist }))
@@ -37,7 +37,7 @@ class PlaylistMenuItem extends Component {
     clipIsInPlaylist ?
       this.props.deleteClip(playlistID, this.props.selectedClip.twitch_tr_id)
       : this.props.postClip(playlistID, this.props.selectedClip)
-    
+
     this.setState({clipIsInPlaylist: !clipIsInPlaylist})
   }
 

@@ -16,10 +16,12 @@ import thunk from 'redux-thunk'
 import playlistReducer from './reducers/playlistReducer'
 import drawerReducer from './reducers/drawerReducer'
 import clipReducer from './reducers/clipReducer'
+import userReducer from './reducers/userReducer'
 
 require('dotenv').config()
 
 const rootReducer = combineReducers({
+  userInfo: userReducer,
   playlistInfo: playlistReducer,
   drawerOpen: drawerReducer,
   clipInfo: clipReducer
