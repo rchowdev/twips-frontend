@@ -1,16 +1,24 @@
 import React, { Component } from 'react'
-
-//Material UI
-import Button from "@material-ui/core/Button";
+import landingImg from '../../images/landing.jpg'
 
 //Components
 import SignUpLoginDialog from './SignUpLoginDialog'
+
+//Styles
+const styles = {
+    landingBackground: {
+      height: "100%",
+      width: "100%",
+      zIndex: -1,
+      position: "absolute"
+    }
+}
 
 class Landing extends Component{
   render(){
     return (
       <div>
-        <h1>Landing</h1>
+        <img src={landingImg} style={styles.landingBackground} alt="landingImg"/>
         <SignUpLoginDialog></SignUpLoginDialog>
       </div>
     )

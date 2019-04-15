@@ -36,6 +36,9 @@ const styles = theme => ({
   menuButton: {
     marginLeft: 12,
     marginRight: 20
+  },
+  logoutButton: {
+    color: "white",
   }
 })
 
@@ -80,7 +83,8 @@ class NavBar extends Component{
             Twips
           </Typography>
           <SearchDownshift />
-          <Button onClick={this.handleLogout}>Logout</Button>
+          <div style={{ flex: 1 }}/>
+          <Button classes={{ root: classes.logoutButton }} onClick={this.handleLogout}>Logout</Button>
         </Toolbar>
       </AppBar>
     )

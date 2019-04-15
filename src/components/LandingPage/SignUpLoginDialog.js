@@ -11,15 +11,26 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
 
 //Actions
-import { postUser } from '../../actions/userActions'
+import { postUser, postAuth } from '../../actions/userActions'
 
 //Styles
 import { withStyles } from '@material-ui/core/styles';
 const styles = theme => ({
   hide: {
     display: "none"
+  },
+  buttonRoot: {
+    boxShadow: "9px 8px 31px -9px rgba(0,0,0,0.58)",
+  },
+  headerRoot: {
+    marginTop: 250,
+    width: "100%",
+    position: "fixed",
+    color: "#f6f1ed",
+    fontFamily: ['Lobster', 'cursive']
   },
   tabsRoot: {
     borderBottom: '1px solid #e8e8e8',
@@ -87,10 +98,10 @@ class SignUpLoginDialog extends Component {
     if(this.state.value){ //SIGN UP
       this.props.postUser({ first_name, last_name, email, password })
         .then(res => this.props.history.push("/home"))
+    } else {  //LOGIN
+      this.props.postAuth({ email, password })
+        .then(res => this.props.history.push("/home"))
     }
-    // } else {  //LOGIN
-    //   console.log({ email, password })
-    // }
     this.setState({ open: false })
   }
 
@@ -104,12 +115,21 @@ class SignUpLoginDialog extends Component {
 
     return (
       <div>
-        <Button variant="outlined" color="primary" onClick={() => this.handleClickOpen("login")}>
+        <Typography classes={{ root: classes.headerRoot }} align="center" variant="h1">Twips</Typography>
+        <div style={{
+          display: "flex",
+          position: "fixed",
+          width: "100%",
+          bottom: "36%",
+          justifyContent: "center",
+        }}>
+          <Button classes={{ root: classes.buttonRoot }} variant="contained" color="primary" onClick={() => this.handleClickOpen("login")}>
           Log In
-        </Button>
-        <Button variant="outlined" color="primary" onClick={() => this.handleClickOpen("signup")}>
+          </Button>
+          <Button style={{ marginLeft: 10 }} classes={{ root: classes.buttonRoot }} variant="contained" color="primary" onClick={() => this.handleClickOpen("signup")}>
           Sign Up
-        </Button>
+          </Button>
+        </div>
         <Dialog
           open={open}
           onClose={this.handleClose}
@@ -135,7 +155,7 @@ class SignUpLoginDialog extends Component {
             </Tabs>
             <form id="signup-login" onSubmit={this.handleSubmit}>
               <TextField
-                required
+                required={!!value}
                 classes={value ? null : { root: classes.hide } }
                 margin="dense"
                 id="first_name"
@@ -147,7 +167,7 @@ class SignUpLoginDialog extends Component {
                 value={first_name}
               />
               <TextField
-                required
+                required={!!value}
                 classes={value ? null : { root: classes.hide } }
                 margin="dense"
                 id="last_name"
@@ -196,5 +216,5 @@ class SignUpLoginDialog extends Component {
   }
 }
 
-const ConnectedSignUpLoginDialog = connect(null, { postUser })(SignUpLoginDialog)
+const ConnectedSignUpLoginDialog = connect(null, { postUser, postAuth })(SignUpLoginDialog)
 export default withRouter(withStyles(styles)(ConnectedSignUpLoginDialog))

@@ -19,5 +19,22 @@ export const postUser = (userData) => (dispatch) => {
     body: JSON.stringify({ user: userData })
   })
     .then(res => res.json())
-    .then(userData => { localStorage.setItem('token', userData.jwt); dispatch(logIn(userData)) })
+    .then(userData => {
+      localStorage.setItem('token', userData.jwt)
+      dispatch(logIn(userData))
+    })
+}
+
+//Login(create auth)
+export const postAuth = (userData) => (dispatch) => {
+  return fetch(`${API_URL}/login`, {
+    method: "POST",
+    headers: API_HEADERS,
+    body: JSON.stringify({ user: userData })
+  })
+    .then(res => res.json())
+    .then(userData => {
+      localStorage.setItem('token', userData.jwt)
+      dispatch(logIn(userData))
+    })
 }

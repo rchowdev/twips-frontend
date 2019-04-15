@@ -6,8 +6,10 @@ import { selectClip } from '../actions/clipActions'
 
 //Material UI
 import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Typography from '@material-ui/core/Typography';
+import AddIcon from '@material-ui/icons/Add';
 
 //Components
 import PlaylistMenuItem from './PlaylistMenuItem'
@@ -37,18 +39,18 @@ class PlaylistMenu extends Component {
     return (
       <div>
         <IconButton
-        aria-label="More"
+        aria-label="Add"
         aria-owns={menuOpen ? 'long-menu' : undefined}
         aria-haspopup="true"
-        color="secondary"
+        color="primary"
         onClick={this.handleIconClick}
         >
-          <MoreVertIcon />
+          <AddIcon />
         </IconButton>
         <Menu
           id="long-menu"
           anchorEl={anchorEl}
-          open={menuOpen} 
+          open={menuOpen}
           onClose={this.handleMenuClose}
           PaperProps={{
             style: {
