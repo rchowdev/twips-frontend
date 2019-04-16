@@ -100,7 +100,7 @@ class SignUpLoginDialog extends Component {
         .then(res => this.props.history.push("/home"))
     } else {  //LOGIN
       this.props.postAuth({ email, password })
-        .then(res => this.props.history.push("/home"))
+        .then(res => localStorage.token ? this.props.history.push("/home") : this.props.history.push("/"))
     }
     this.setState({ open: false })
   }

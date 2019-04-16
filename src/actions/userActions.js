@@ -34,7 +34,9 @@ export const postAuth = (userData) => (dispatch) => {
   })
     .then(res => res.json())
     .then(userData => {
-      localStorage.setItem('token', userData.jwt)
-      dispatch(logIn(userData))
+      if(userData.user) {
+        localStorage.setItem('token', userData.jwt)
+        dispatch(logIn(userData))
+      }
     })
 }
