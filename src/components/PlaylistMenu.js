@@ -6,9 +6,7 @@ import { selectClip } from '../actions/clipActions'
 
 //Material UI
 import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
 import AddIcon from '@material-ui/icons/Add';
 
 //Components

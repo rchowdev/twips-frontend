@@ -19,6 +19,7 @@ import { cutIcon } from '../icons/cut-icon'
 //Actions
 import { openDrawer, closeDrawer } from '../actions/drawerActions'
 import { logOut } from '../actions/userActions'
+import { getTopClips } from '../actions/playlistActions'
 
 //Components
 import SearchDownshift from './SearchDownShift'
@@ -59,6 +60,10 @@ class NavBar extends Component{
     this.props.history.push('/')
   }
 
+  handleLogoClick = () => {
+    this.props.getTopClips()
+  }
+
   render() {
     const { classes, drawerOpen } = this.props;
 
@@ -79,7 +84,7 @@ class NavBar extends Component{
           <SvgIcon>
             <path d={cutIcon}/>
           </SvgIcon>
-          <Typography variant="h6" color="inherit" noWrap>
+          <Typography variant="h6" color="inherit" noWrap onClick={this.handleLogoClick}>
             Twips
           </Typography>
           <SearchDownshift />
@@ -102,13 +107,5 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    openDrawer: () => dispatch(openDrawer()),
-    closeDrawer: () => dispatch(closeDrawer()),
-    logOut: () => dispatch(logOut())
-  }
-}
-
-const ConnectedNavBar = connect(mapStateToProps, mapDispatchToProps)(NavBar)
+const ConnectedNavBar = connect(mapStateToProps, { openDrawer, closeDrawer, logOut, getTopClips })(NavBar)
 export default withRouter(withStyles(styles, { withTheme: true })(ConnectedNavBar))

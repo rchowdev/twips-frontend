@@ -30,7 +30,7 @@ const styles = theme => ({
     margin: theme.spacing.unit,
     minWidth: 120,
     marginLeft: "11vw",
-    height: "5vh"
+    height: "7vh"
   },
   search: {
     position: 'relative',
@@ -201,7 +201,7 @@ class SearchDownshift extends Component {
             />
           }
           >
-            <option value={"games"}>Categories</option>
+            <option value={"games"}>Games</option>
             <option value={"channels"}>Channels</option>
           </Select>
         </FormControl>
