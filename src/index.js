@@ -18,6 +18,9 @@ import drawerReducer from './reducers/drawerReducer'
 import clipReducer from './reducers/clipReducer'
 import userReducer from './reducers/userReducer'
 
+//Material UI
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+
 require('dotenv').config()
 
 const rootReducer = combineReducers({
@@ -32,11 +35,26 @@ const store = createStore(rootReducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f
 ))
 
+const theme = createMuiTheme({
+  typography: {
+    useNextVariants: true,
+  },
+  palette: {
+    primary: {
+      main: "#512DA8"
+    }
+  }
+});
+
+console.log(theme);
+
 ReactDOM.render(
   <Provider store={store}>
-    <Router>
-      <App />
-    </Router>
+    <MuiThemeProvider theme={theme}>
+      <Router>
+        <App />
+      </Router>
+    </MuiThemeProvider>
   </Provider>,
   document.getElementById('root'));
 

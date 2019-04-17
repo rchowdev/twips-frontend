@@ -45,7 +45,7 @@ class LeftDrawer extends Component{
   state = {
     collapseIsOpen: false
   }
-  
+
   //Load playlists
   componentDidMount(){
     this.props.getPlaylists()
@@ -75,7 +75,7 @@ class LeftDrawer extends Component{
             <ListItemIcon>
               <PlaylistPlayIcon />
             </ListItemIcon>
-            <Typography variant="title">Playlists</Typography>
+            <Typography variant="h6">Playlists</Typography>
           </ListItem>
           {/*Playlists names here*/}
           {playlists.map(playlist => (

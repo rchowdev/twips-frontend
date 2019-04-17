@@ -60,7 +60,7 @@ class ClipContainer extends Component {
         <div className={classes.contentHeader}/>
         <GridList cellHeight={180}>
           <GridListTile key="Subheader" cols={2} style={{ height: 'auto'}}>
-            <Typography variant="title" inline>{name}</Typography>
+            <Typography variant="h6" inline>{name}</Typography>
             <EditPlaylistForm />
             <Divider />
           </GridListTile>

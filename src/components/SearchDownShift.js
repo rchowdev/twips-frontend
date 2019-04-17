@@ -9,7 +9,6 @@ import Downshift from "downshift";
 
 //Material UI
 import FormControl from '@material-ui/core/FormControl';
-import OutlinedInput from '@material-ui/core/OutlinedInput'
 import Select from '@material-ui/core/Select';
 import SearchIcon from "@material-ui/icons/Search";
 import InputBase from '@material-ui/core/InputBase';
@@ -25,12 +24,41 @@ import { fade } from '@material-ui/core/styles/colorManipulator'
 //Actions
 import { getTopClipsForCategory } from '../actions/playlistActions'
 
+const BootstrapInput = withStyles(theme => ({ // Custom Select Input
+  input: {
+    color: 'white',
+    borderRadius: 4,
+    position: 'relative',
+    border: '1px solid #ced4da',
+    fontSize: 16,
+    width: 'auto',
+    padding: '10px 26px 10px 12px',
+    transition: theme.transitions.create(['border-color', 'box-shadow']),
+    // Use the system font instead of the default Roboto font.
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+    '&:focus': {
+      borderRadius: 4,
+      borderColor: 'white'
+    },
+  },
+}))(InputBase);
+
 const styles = theme => ({
   formControl: {
     margin: theme.spacing.unit,
-    minWidth: 120,
     marginLeft: "11vw",
-    height: "7vh"
+    height: "5vh",
   },
   search: {
     position: 'relative',
@@ -77,6 +105,9 @@ const styles = theme => ({
     marginTop: theme.spacing.unit,
     left: 0,
     right: 0
+  },
+  icon: {
+    color: "white"
   }
 })
 
@@ -192,12 +223,12 @@ class SearchDownshift extends Component {
         <FormControl className={classes.formControl} variant="outlined">
           <Select
           native
+          classes={{ icon: classes.icon }}
           value={selectValue}
           onChange={this.handleSelect("selectValue")}
           input={
-            <OutlinedInput
+            <BootstrapInput
               name="selectValue"
-              labelWidth={0}
             />
           }
           >
