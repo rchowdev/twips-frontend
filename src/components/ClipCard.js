@@ -20,7 +20,7 @@ const styles = theme => ({
   },
   gridTile: {
     padding: '8px',
-    width: "32vw"
+    width: "32.3vw"
   },
   title: {
     width: "23vw",
@@ -30,7 +30,7 @@ const styles = theme => ({
     height:'30vh',
     frameborder:'0',
     scrolling:'no'
-  },
+  }
 })
 
 class ClipCard extends Component {

@@ -40,6 +40,9 @@ const styles = theme => ({
   },
   logoutButton: {
     color: "white",
+  },
+  title: {
+    fontFamily: ["Lobster", "cursive"]
   }
 })
 
@@ -84,7 +87,7 @@ class NavBar extends Component{
           <SvgIcon>
             <path d={cutIcon}/>
           </SvgIcon>
-          <Typography variant="h6" color="inherit" noWrap onClick={this.handleLogoClick}>
+          <Typography classes={{ root: classes.title }} variant="h4" color="inherit" noWrap onClick={this.handleLogoClick}>
             Twips
           </Typography>
           <SearchDownshift />
