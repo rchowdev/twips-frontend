@@ -1,4 +1,4 @@
-export const API_URL = "http://localhost:3001/api/v1"
+export const API_URL = "https://rchow-twips.herokuapp.com/api/v1"
 export const TWITCH_API = "https://api.twitch.tv/kraken"
 export const TWITCH_HEADERS = {
   "Accept": "application/vnd.twitchtv.v5+json",
