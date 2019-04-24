@@ -1,11 +1,17 @@
 # Twips
 Website that helps users manage their playlists of Twitch clips.
 
+<img src="https://i.imgur.com/LqgQniL.png" 
+alt="Twips" width="800" height="500" border="10" />
+
 ## Features
 * Ability to sign up as a new user or login as a current user
 * Get weekly top clips from Twitch
 * Create playlists of Twitch clips and add/remove clips to/from playlists
 * Search for weekly top clips by game or by channel
+
+<img src="https://i.imgur.com/HcD5p2A.png" 
+alt="Twips" width="800" height="500" border="10" />
 
 ## Setup
 Clone both of these repos: [backend repo](https://github.com/rchowdev/twips-backend) and [frontend repo](https://github.com/rchowdev/twips-frontend).
