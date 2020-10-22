@@ -34,7 +34,7 @@ class ClipCard extends Component {
 		iframe.setAttribute("allowfullscreen", "true"); //Lets iframe have fullscreen button
 		iframe.setAttribute(
 			"src",
-			`${this.props.clip.embed_url}&twips-frontend.herokuapp.com&autoplay=false`
+			`${this.props.clip.embed_url}&parent=twips-frontend.herokuapp.com&autoplay=false`
 		);
 	}
 
