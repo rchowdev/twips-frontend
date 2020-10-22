@@ -1,5 +1,5 @@
-// export const API_URL = "https://twips-backend-v2.herokuapp.com/api/v2";
-export const API_URL = "http://localhost:5000/api/v2";
+export const API_URL = "https://twips-backend-v2.herokuapp.com/api/v2";
+// export const API_URL = "http://localhost:5000/api/v2";
 export const TWITCH_API = "https://api.twitch.tv/kraken";
 export const TWITCH_HEADERS = {
 	Accept: "application/vnd.twitchtv.v5+json",
