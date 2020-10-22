@@ -103,11 +103,11 @@ export const deleteClip = (playlistID, clipID) => (dispatch) => {
 		headers: AUTH_HEADERS(),
 	})
 		.then((res) => res.json())
-		.then((clip) =>
+		.then((clip) => {
 			clip.error
 				? console.log(clip.error)
-				: dispatch(removeFromPlaylist(clip))
-		);
+				: dispatch(removeFromPlaylist(clip));
+		});
 };
 
 //Create playlist and receive a playlist object with id and name
